@@ -6,7 +6,7 @@
   @if ($lighten) {
     --button-background-color-hover: color.adjust($background, $lightness: 10%);
   } @else {
-    --button-background-color-hover: color.adjust($background, $lightness: -10%);
+    --button-background-color-hover: color.adjust($background, $lightness: -9%);
   }
 }
 
