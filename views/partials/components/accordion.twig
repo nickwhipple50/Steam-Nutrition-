@@ -1,0 +1,17 @@
+{#
+  Usage:
+  {% include 'views/partials/components/accordion.twig' with { accordion_items: accordion_items } %}
+#}
+
+{% if accordion_items %}
+  <div data-accordion>
+    {% for item in accordion_items %}
+      <details {% if loop.first %}open{% endif %}>
+        <summary>{{ item.heading | esc_html }}</summary>
+        <div class="accordion__panel">
+          {{ item.content | wp_kses_post }}
+        </div>
+      </details>
+    {% endfor %}
+  </div>
+{% endif %}

@@ -1,0 +1,46 @@
+{% if content %}
+  <div class="content content--{{ content.max_width|default('md') }}">
+
+    {% if content.eyebrow %}
+      <p class="content__eyebrow">
+        {{ content.eyebrow }}
+      </p>
+    {% endif %}
+
+    {% if content.heading %}
+      <h2 class="content__heading">
+        {{ content.heading }}
+      </h2>
+    {% endif %}
+
+    {% if content.lead %}
+      <p class="content__lead">
+        {{ content.lead }}
+      </p>
+    {% endif %}
+
+    {% if content.content %}
+      <div class="content__body">
+        {{ content.content }}
+      </div>
+    {% endif %}
+
+    {% if content.buttons %}
+      <div class="content__actions">
+        {% for row in content.buttons %}
+          {% set btn = row.button %}
+          {% if btn %}
+            <a
+                href="{{ btn.url }}"
+                class="btn btn--{{ row.style|default('primary') }}"
+                {% if btn.target %}target="{{ btn.target }}"{% endif %}
+            >
+              {{ btn.title }}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+{% endif %}

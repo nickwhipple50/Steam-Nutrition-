@@ -1,0 +1,17 @@
+{% extends 'partials/sections/_section-wrapper.twig' %}
+
+{% block section_content %}
+
+  <div class='c-two-column c-two-column--{{ fields.alignment }}'>
+
+    <figure class='c-two-column__media'>
+      {% include 'partials/media.twig' with { media: fields.media } only %}
+    </figure>
+
+    <div class='c-two-column__content'>
+      {% include 'partials/content.twig' with { content: fields.content } only %}
+    </div>
+
+  </div>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% set section = fields.section ?? {} %}
+{% set motion = fields.motion ?? {} %}
+{% set element = section.semantic_element ?: 'section' %}
+
+{% set classes = [
+  'c-section',
+  section.background_color ? 'bg-' ~ section.background_color,
+  section.padding_top ? 'pt-' ~ section.padding_top,
+  section.padding_bottom ? 'pb-' ~ section.padding_bottom,
+  section.overflow_hidden ? 'overflow-hidden'
+] | filter(v => v) | join(' ') %}
+
+<{{ element }}
+class="{{ classes }}"
+{% if section.anchor_id %}id="{{ section.anchor_id }}"{% endif %}
+  {% if motion.enable_animation %}
+    data-animate="{{ motion.animation_type }}"
+    data-delay="{{ motion.delay }}"
+    data-duration="{{ motion.duration }}"
+  {% endif %}
+>
+  <div class="c-container container--{{ section.container_width }}">
+    {% block section_content %}{% endblock %}
+  </div>
+</{{ element }}>

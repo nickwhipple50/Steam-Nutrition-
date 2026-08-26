@@ -1,0 +1,23 @@
+{% extends "partials/sections/_section-wrapper.twig" %}
+
+{% block section_content %}
+
+  {% include "partials/content.twig" with { content: fields.content } %}
+
+  {% if fields.stats %}
+    <div class="stats">
+      {% for stat in fields.stats %}
+        <div class="stat">
+          <div class="stat__number"
+               data-count="{{ stat.number }}">
+            {{ stat.number }}{{ stat.suffix }}
+          </div>
+          <div class="stat__label">
+            {{ stat.label }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+{% endblock %}

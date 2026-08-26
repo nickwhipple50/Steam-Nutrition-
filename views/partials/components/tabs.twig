@@ -1,0 +1,31 @@
+{% if tab_items %}
+  {# Unique ID scopes ARIA relationships when multiple tab groups appear on one page #}
+  {% set tabs_id = 'tabs-' ~ random(100000, 999999) %}
+
+  <div data-tabs>
+    <div role="tablist" aria-label="{{ aria_label|default('Content tabs')|esc_attr }}">
+      {% for item in tab_items %}
+        <button
+            role="tab"
+            id="{{ tabs_id }}-tab-{{ loop.index }}"
+            aria-selected="{{ loop.first ? 'true' : 'false' }}"
+            aria-controls="{{ tabs_id }}-panel-{{ loop.index }}"
+            tabindex="{{ loop.first ? '0' : '-1' }}"
+        >
+          {{ item.heading | esc_html }}
+        </button>
+      {% endfor %}
+    </div>
+
+    {% for item in tab_items %}
+      <div
+          role="tabpanel"
+          id="{{ tabs_id }}-panel-{{ loop.index }}"
+          aria-labelledby="{{ tabs_id }}-tab-{{ loop.index }}"
+          {% if not loop.first %}hidden{% endif %}
+      >
+        {{ item.content | wp_kses_post }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

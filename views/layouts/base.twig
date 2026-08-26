@@ -1,0 +1,61 @@
+<!doctype html>
+<!--suppress HtmlRequiredTitleElement, HtmlRequiredLangAttribute -->
+<html {{ site.language_attributes }}>
+  <head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+
+    {% include 'views/partials/seo.twig' with { seo: post.fields.seo_metadata } %}
+
+    {% for provider in analytics %}
+      {% include 'views/partials/analytics/' ~ provider.type ~ '.twig' with { analytics_id: provider.id } only %}
+    {% endfor %}
+
+    {{ function('wp_head') }}
+  </head>
+  <body {{ function('body_class') }}>
+    {% for provider in analytics %}
+      {% if provider.type in ['gtm', 'meta'] %}
+        {% include 'views/partials/analytics/noscript/' ~ provider.type ~ '.twig' with { analytics_id: provider.id } only %}
+      {% endif %}
+    {% endfor %}
+
+    {{ function('wp_body_open') }}
+
+    <header>
+      <div class='site-logo'>
+        {# TODO: add logo #}
+      </div>
+      <nav>
+        <ul>
+          {% for item in menu.items %}
+            <li>
+              <a href='{{ item.url|e }}' target='{{ item.target|e }}'>
+                {{ item.title|e }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <div class="subfooter">
+      <p>Copyright &copy; {{ now|date('Y') }} {{ site.name }}. All rights reserved. Powered by
+        <a href='https://mcguinnessmedia.com/' target='_blank' rel='noopener noreferrer'>
+          McGuinness Media & Marketing
+        </a>
+        .</p>
+    </div>
+
+    {{ function('wp_footer') }}
+  </body>
+</html>

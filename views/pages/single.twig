@@ -1,0 +1,12 @@
+{% extends 'layouts/base.twig' %}
+
+{% block content %}
+
+  <section class="post prose">
+    <div class="wrapper">
+      <h1>{{ post.title|esc_html }}</h1>
+      {{ post.content|wp_kses_post }}
+    </div>
+  </section>
+
+{% endblock %}

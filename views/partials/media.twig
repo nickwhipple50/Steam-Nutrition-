@@ -1,0 +1,83 @@
+{% if media %}
+  {% set type = media.type ?? null %}
+
+  <figure class="media media--{{ type }}">
+
+    {# ================= IMAGE ================= #}
+    {% if type == 'image' and media.image %}
+      <img
+          src="{{ media.image.url }}"
+          alt="{{ media.image.alt ?: '' }}"
+          loading="lazy"
+          width="{{ media.image.width }}"
+          height="{{ media.image.height }}"
+      />
+
+      {# ================= SLIDER ================= #}
+    {% elseif type == 'slider' and media.gallery %}
+      <div
+          class="swiper"
+          data-slider-loop="true"
+          data-slider-navigation="true"
+      >
+        <div class="swiper-wrapper">
+          {% for image in media.gallery %}
+            <div class="swiper-slide">
+              <img
+                  src="{{ image.url }}"
+                  alt="{{ image.alt ?: '' }}"
+                  loading="lazy"
+                  width="{{ image.width }}"
+                  height="{{ image.height }}"
+              />
+            </div>
+          {% endfor %}
+        </div>
+
+        <button class="swiper-button-prev" aria-label="Previous slide"></button>
+        <button class="swiper-button-next" aria-label="Next slide"></button>
+      </div>
+
+      {# ================= OEMBED ================= #}
+    {% elseif type == 'embed' and media.embed %}
+      <div class="media__embed">
+        {{ media.embed|raw }}
+      </div>
+
+      {# ================= UPLOADED VIDEO ================= #}
+    {% elseif type == 'upload' and media.upload %}
+      <video
+          controls
+          preload="metadata"
+          {% if media.upload_poster %}
+            poster="{{ media.upload_poster.url }}"
+          {% endif %}
+      >
+        {% for source in media.upload %}
+          {% if source.file %}
+            <source
+                src="{{ source.file.url }}"
+                type="{{ source.file.mime_type }}"
+                {% if source.media_query %}
+                  media="{{ source.media_query }}"
+                {% endif %}
+            />
+          {% endif %}
+        {% endfor %}
+
+        <p>
+          Your browser does not support HTML5 video.
+          <a href="{{ media.upload[0].file.url }}">Download the video</a>.
+        </p>
+      </video>
+    {% endif %}
+
+    {# Optional caption support later #}
+    {% if media.caption %}
+      <figcaption class="media__caption">
+        {{ media.caption }}
+      </figcaption>
+    {% endif %}
+
+  </figure>
+{% endif %}

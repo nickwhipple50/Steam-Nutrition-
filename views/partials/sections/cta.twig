@@ -1,0 +1,7 @@
+{% extends "partials/sections/_section-wrapper.twig" %}
+
+{% block section_content %}
+  <div class="cta cta--{{ fields.alignment }}">
+    {% include "partials/content.twig" with { content: fields.content } only %}
+  </div>
+{% endblock %}
