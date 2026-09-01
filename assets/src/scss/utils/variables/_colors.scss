@@ -1,0 +1,77 @@
+// ============================================================
+// Steam Nutrition — Color System
+// Brass/gold on near-black, steampunk-industrial identity.
+// ============================================================
+@use "sass:map";
+
+:root {
+  --black: #0a0906;
+  --brass: #c79a44;
+  --brass-light: #eecf8c;
+  --crimson-light: #d1495e;
+  --paper: #e9dfc6;
+  --charcoal: #151109;
+  --charcoal-2: #1e1810;
+  --brass-dark: #6b4e22;
+  --line: rgba(199, 154, 68, 0.25);
+}
+
+// Sass-side copies for functions that need real hex values
+// (color.adjust, gradients, box-shadows, etc.) — keep in sync with :root above.
+$color-black: #0a0906;
+$color-brass: #c79a44;
+$color-brass-light: #eecf8c;
+$color-crimson-light: #d1495e;
+$color-paper: #e9dfc6;
+$color-charcoal: #151109;
+$color-charcoal-2: #1e1810;
+$color-brass-dark: #6b4e22;
+$color-line: rgba(199, 154, 68, 0.25);
+
+// ------------------------------------------------------------
+// Schemes — applied via [data-scheme="..."] on any container
+// so sections can flip background/foreground without new markup.
+// ------------------------------------------------------------
+$schemes: (
+    "black": (
+        "bg": $color-black,
+        "text": $color-paper,
+        "accent": $color-brass,
+        "accent-light": $color-brass-light,
+        "line": $color-line,
+    ),
+    "charcoal": (
+        "bg": $color-charcoal,
+        "text": $color-paper,
+        "accent": $color-brass,
+        "accent-light": $color-brass-light,
+        "line": $color-line,
+    ),
+    "brass": (
+        "bg": $color-brass,
+        "text": $color-black,
+        "accent": $color-black,
+        "accent-light": $color-charcoal,
+        "line": rgba(10, 9, 6, 0.25),
+    ),
+    "paper": (
+        "bg": $color-paper,
+        "text": $color-black,
+        "accent": $color-brass-dark,
+        "accent-light": $color-brass,
+        "line": rgba(107, 78, 34, 0.25),
+    ),
+);
+
+@each $name, $scheme in $schemes {
+  [data-scheme="#{$name}"] {
+    --scheme-bg: #{map.get($scheme, "bg")};
+    --scheme-text: #{map.get($scheme, "text")};
+    --scheme-accent: #{map.get($scheme, "accent")};
+    --scheme-accent-light: #{map.get($scheme, "accent-light")};
+    --scheme-line: #{map.get($scheme, "line")};
+
+    background-color: var(--scheme-bg);
+    color: var(--scheme-text);
+  }
+}

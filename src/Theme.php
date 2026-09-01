@@ -8,6 +8,7 @@ use MMM\Models\Post;
 use MMM\Services\{FieldGroupRegistryService,
   ImageOptimizationService,
   LaunchChecklistService,
+  OptionsPageRegistryService,
   PostTypeRegistryService,
   TaxonomyRegistryService,
   TwigFilterService,
@@ -33,6 +34,9 @@ class Theme
 
     register_nav_menus([
       'primary' => __('Primary Menu'),
+      'footer_shop' => __('Footer — Shop Column'),
+      'footer_company' => __('Footer — Company Column'),
+      'footer_legal' => __('Footer — Legal Links (sub-footer)'),
     ]);
   }
 
@@ -59,7 +63,21 @@ class Theme
   {
     $context['site'] = new Site();
     $context['menu'] = Timber::get_menu('primary');
+    $context['footer_shop_menu'] = Timber::get_menu('footer_shop');
+    $context['footer_company_menu'] = Timber::get_menu('footer_company');
+    $context['footer_legal_menu'] = Timber::get_menu('footer_legal');
     $context['analytics'] = get_field('analytics', 'option');
+    $context['theme_options'] = get_fields('option') ?: [];
+
+    if (function_exists('WC') && WC()->cart) {
+      $context['cart_url'] = wc_get_cart_url();
+      $context['cart_count'] = WC()->cart->get_cart_contents_count();
+      $context['account_url'] = get_permalink(wc_get_page_id('myaccount')) ?: null;
+    } else {
+      $context['cart_url'] = null;
+      $context['cart_count'] = 0;
+      $context['account_url'] = null;
+    }
 
     return $context;
   }
@@ -147,13 +165,13 @@ class Theme
   }
 
   /**
-   * Register custom taxonomies using the TaxonomyRegistryService.
+   * Register options pages using the OptionsPageRegistryService.
    * @return void
    */
   private function registerOptionsPages(): void
   {
-    $optionsPageRegistryRegistry = TaxonomyRegistryService::getInstance();
+    $optionsPageRegistry = OptionsPageRegistryService::getInstance();
 
-    $optionsPageRegistryRegistry->register(ThemeOptions::class);
+    $optionsPageRegistry->register(ThemeOptions::class);
   }
 }

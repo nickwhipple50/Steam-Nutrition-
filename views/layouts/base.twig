@@ -23,38 +23,13 @@
 
     {{ function('wp_body_open') }}
 
-    <header>
-      <div class='site-logo'>
-        {# TODO: add logo #}
-      </div>
-      <nav>
-        <ul>
-          {% for item in menu.items %}
-            <li>
-              <a href='{{ item.url|e }}' target='{{ item.target|e }}'>
-                {{ item.title|e }}
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      </nav>
-    </header>
+    {% include 'views/partials/header.twig' %}
 
-    <main>
+    <main id="main-content">
       {% block content %}{% endblock %}
     </main>
 
-    <footer>
-
-    </footer>
-
-    <div class="subfooter">
-      <p>Copyright &copy; {{ now|date('Y') }} {{ site.name }}. All rights reserved. Powered by
-        <a href='https://mcguinnessmedia.com/' target='_blank' rel='noopener noreferrer'>
-          McGuinness Media & Marketing
-        </a>
-        .</p>
-    </div>
+    {% include 'views/partials/footer.twig' %}
 
     {{ function('wp_footer') }}
   </body>

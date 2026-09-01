@@ -1,0 +1,100 @@
+<header class="site-header" data-scheme="charcoal">
+  <a class="site-header__skip-link" href="#main-content">Skip to content</a>
+
+  <div class="site-header__bar">
+
+    <div class="site-logo">
+      <a href="{{ site.url }}">
+        {% if theme_options.site_logo.url %}
+          <img
+              src="{{ theme_options.site_logo.url }}"
+              alt="{{ theme_options.site_logo.alt|default(site.name) }}"
+              width="160"
+              height="40"
+          >
+        {% else %}
+          <span class="site-logo__text">STEAM<span>·</span>NUTRITION</span>
+        {% endif %}
+      </a>
+    </div>
+
+    <button
+        type="button"
+        class="site-header__nav-toggle"
+        data-nav-toggle
+        aria-expanded="false"
+        aria-controls="site-nav"
+        aria-label="Toggle menu"
+    >
+      <span class="site-header__nav-toggle-bars"></span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" data-nav-panel hidden aria-label="Primary">
+      <ul class="site-nav__list">
+        {% for item in menu.items %}
+          <li class="site-nav__item{{ item.children ? ' site-nav__item--has-children' : '' }}">
+            
+                class="site-nav__link"
+                href="{{ item.url|e }}"
+                {% if item.target %}target="{{ item.target|e }}"{% endif %}
+            >
+              {{ item.title|e }}
+            </a>
+
+            {% if item.children %}
+              <ul class="site-nav__submenu">
+                {% for child in item.children %}
+                  <li class="site-nav__item">
+                    
+                        class="site-nav__link"
+                        href="{{ child.url|e }}"
+                        {% if child.target %}target="{{ child.target|e }}"{% endif %}
+                    >
+                      {{ child.title|e }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <div class="site-header__utility">
+
+      <details class="site-search">
+        <summary class="utility-link" aria-label="Search">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </summary>
+        <form class="site-search__panel" role="search" method="get" action="{{ site.url }}/">
+          <input type="search" name="s" placeholder="Search products…" aria-label="Search products">
+          <button type="submit">Go</button>
+        </form>
+      </details>
+
+      <a class="utility-link" href="{{ account_url|default(site.url ~ '/my-account/') }}" aria-label="My Account">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </a>
+
+      <a class="utility-link" href="{{ cart_url|default(site.url ~ '/cart/') }}" aria-label="Cart">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        {% if cart_count %}
+          <span class="utility-link__badge">{{ cart_count }}</span>
+        {% endif %}
+      </a>
+
+    </div>
+
+  </div>
+</header>

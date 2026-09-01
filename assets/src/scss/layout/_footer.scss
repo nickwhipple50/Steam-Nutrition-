@@ -1,0 +1,231 @@
+@use "sass:color";
+@use "@css/utils/variables/colors" as c;
+@use "@css/utils/mixins/industrial" as ind;
+
+.site-footer {
+  background: var(--black);
+  border-top: 1px solid var(--line);
+  @include ind.blueprint-grid(48px);
+}
+
+// ---------------------------------------------------------------
+// Newsletter band
+// ---------------------------------------------------------------
+.footer-subscribe {
+  max-width: 1440px;
+  margin-inline: auto;
+  padding: var(--space-m) var(--space-s);
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s);
+
+  border-bottom: 1px solid var(--line);
+}
+
+.footer-subscribe__copy {
+  h2 {
+    font-size: var(--step-1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--brass-light);
+  }
+
+  p {
+    margin-top: var(--space-3xs);
+    color: var(--paper);
+    font-size: var(--step--1);
+    opacity: 0.8;
+  }
+}
+
+.footer-subscribe__form {
+  display: flex;
+  gap: var(--space-3xs);
+  flex-wrap: wrap;
+
+  input[type="email"] {
+    min-width: 260px;
+    padding: var(--space-2xs) var(--space-s);
+    background: var(--charcoal);
+    border: 1px solid var(--line);
+    color: var(--paper);
+
+    &::placeholder {
+      color: rgba(233, 223, 198, 0.5);
+    }
+
+    &:focus-visible {
+      outline: 1px solid var(--brass);
+      border-color: var(--brass);
+    }
+  }
+
+  button {
+    padding: var(--space-2xs) var(--space-s);
+    background: var(--brass);
+    border: 1px solid var(--brass);
+    color: var(--black);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 200ms ease;
+
+    &:hover {
+      background: var(--brass-light);
+      border-color: var(--brass-light);
+    }
+  }
+}
+
+// ---------------------------------------------------------------
+// Link columns
+// ---------------------------------------------------------------
+.footer-columns {
+  max-width: 1440px;
+  margin-inline: auto;
+  padding: var(--space-l) var(--space-s);
+
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  gap: var(--space-m);
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.footer-brand {
+  @include ind.riveted-corners(10px, 5px);
+
+  padding: var(--space-s);
+  border: 1px solid var(--line);
+
+  &__logo img {
+    max-height: 36px;
+  }
+
+  &__blurb {
+    margin-top: var(--space-2xs);
+    font-size: var(--step--1);
+    color: var(--paper);
+    opacity: 0.75;
+  }
+}
+
+.footer-socials {
+  display: flex;
+  gap: var(--space-3xs);
+  margin-top: var(--space-s);
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+
+    color: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    text-decoration: none;
+
+    font-size: var(--step--1);
+    font-weight: 700;
+
+    transition: color 200ms ease, border-color 200ms ease;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--brass-light);
+      border-color: var(--brass);
+    }
+  }
+}
+
+.footer-nav {
+  &__title {
+    font-size: var(--step--1);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brass);
+
+    padding-bottom: var(--space-3xs);
+    margin-bottom: var(--space-2xs);
+    @include ind.brass-seam(bottom);
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  &__link {
+    font-size: var(--step--1);
+    color: var(--paper);
+    opacity: 0.8;
+    text-decoration: none;
+
+    transition: opacity 200ms ease, color 200ms ease;
+
+    &:hover,
+    &:focus-visible {
+      opacity: 1;
+      color: var(--brass-light);
+    }
+  }
+}
+
+// ---------------------------------------------------------------
+// Sub-footer — legal, copyright
+// ---------------------------------------------------------------
+.site-footer__sub {
+  border-top: 1px solid var(--line);
+
+  padding: var(--space-2xs) var(--space-s);
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2xs);
+
+  max-width: 1440px;
+  margin-inline: auto;
+
+  font-size: var(--step--2);
+  color: var(--paper);
+  opacity: 0.6;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--brass-light);
+      opacity: 1;
+    }
+  }
+}
+
+.site-footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3xs);
+
+  span {
+    opacity: 0.4;
+  }
+}

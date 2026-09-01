@@ -1,0 +1,127 @@
+<footer class="site-footer" data-scheme="black">
+
+  <div class="footer-subscribe">
+    <div class="footer-subscribe__copy">
+      <h2>Stay Pressurized</h2>
+      <p>New releases, restocks, and steam-powered savings — straight to your inbox.</p>
+    </div>
+
+    <form class="footer-subscribe__form" method="post" action="#">
+      <label class="visually-hidden" for="footer-email">Email address</label>
+      <input
+          type="email"
+          id="footer-email"
+          name="email"
+          placeholder="Enter email address"
+          required
+      >
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+
+  <div class="footer-columns">
+
+    <div class="footer-brand">
+      <div class="footer-brand__logo">
+        <a href="{{ site.url }}">
+          {% if theme_options.site_logo.url %}
+            <img
+                src="{{ theme_options.site_logo.url }}"
+                alt="{{ theme_options.site_logo.alt|default(site.name) }}"
+            >
+          {% else %}
+            <span class="site-logo__text">STEAM<span>·</span>NUTRITION</span>
+          {% endif %}
+        </a>
+      </div>
+
+      {% if theme_options.contact_info.address %}
+        <div class="footer-brand__blurb">{{ theme_options.contact_info.address }}</div>
+      {% endif %}
+
+      {% if theme_options.contact_info.phone %}
+        <p class="footer-brand__blurb">
+          <a href="tel:{{ theme_options.contact_info.phone|tel }}">
+            {{ theme_options.contact_info.phone }}
+          </a>
+        </p>
+      {% endif %}
+
+      {% if theme_options.socials %}
+        <div class="footer-socials">
+          {% for social in theme_options.socials %}
+            
+                href="{{ social.link|e }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="{{ social.network|capitalize }}"
+            >
+              {{ social.network|slice(0, 1)|upper }}
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if footer_shop_menu %}
+      <nav class="footer-nav" aria-label="Shop">
+        <p class="footer-nav__title">Shop</p>
+        <ul class="footer-nav__list">
+          {% for item in footer_shop_menu.items %}
+            <li>
+              <a class="footer-nav__link" href="{{ item.url|e }}">{{ item.title|e }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    {% endif %}
+
+    {% if footer_company_menu %}
+      <nav class="footer-nav" aria-label="Company">
+        <p class="footer-nav__title">Company</p>
+        <ul class="footer-nav__list">
+          {% for item in footer_company_menu.items %}
+            <li>
+              <a class="footer-nav__link" href="{{ item.url|e }}">{{ item.title|e }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    {% endif %}
+
+    {% if theme_options.contact_info.address or theme_options.contact_info.phone %}
+      <div class="footer-nav">
+        <p class="footer-nav__title">Contact</p>
+        <ul class="footer-nav__list">
+          {% if theme_options.contact_info.phone %}
+            <li>
+              <a class="footer-nav__link" href="tel:{{ theme_options.contact_info.phone|tel }}">
+                {{ theme_options.contact_info.phone }}
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    {% endif %}
+
+  </div>
+
+  <div class="site-footer__sub">
+    <p>
+      &copy; {{ now|date('Y') }} {{ site.name }}. All rights reserved. Powered by
+      <a href="https://nicholaswhippledesigns.com/" target="_blank" rel="noopener noreferrer">
+        <strong>Nicholas Whipple Designs</strong>
+      </a>.
+    </p>
+
+    {% if footer_legal_menu %}
+      <div class="site-footer__legal">
+        {% for item in footer_legal_menu.items %}
+          <a href="{{ item.url|e }}">{{ item.title|e }}</a>
+          {% if not loop.last %}<span>|</span>{% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+</footer>

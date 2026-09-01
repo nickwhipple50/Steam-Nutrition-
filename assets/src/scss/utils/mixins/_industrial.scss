@@ -1,0 +1,52 @@
+@use "sass:color";
+@use "../variables/colors" as c;
+
+// Faint blueprint grid texture, layered onto a dark background.
+@mixin blueprint-grid($size: 40px, $line-color: c.$color-line) {
+  background-image:
+      linear-gradient(to right, $line-color 1px, transparent 1px),
+      linear-gradient(to bottom, $line-color 1px, transparent 1px);
+  background-size: $size $size;
+}
+
+// Brass rivets pinned into the corners of a panel.
+@mixin riveted-corners($inset: 12px, $size: 6px, $color: c.$color-brass) {
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    width: $size;
+    height: $size;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, color.adjust($color, $lightness: 20%), $color 60%, color.adjust($color, $lightness: -25%) 100%);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
+  }
+
+  &::before {
+    top: $inset;
+    left: $inset;
+  }
+
+  &::after {
+    top: $inset;
+    right: $inset;
+  }
+}
+
+// A thin brass hairline, used to divide sections the way a
+// gauge-panel seam divides brass plating.
+@mixin brass-seam($side: bottom, $color: c.$color-line) {
+  border-#{$side}: 1px solid $color;
+}
+
+// Small circular gauge/rivet accent — decorative only.
+@mixin gauge-dot($diameter: 8px, $color: c.$color-brass) {
+  display: inline-block;
+  width: $diameter;
+  height: $diameter;
+  border-radius: 50%;
+  background: $color;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5), 0 0 6px rgba($color, 0.6);
+}
