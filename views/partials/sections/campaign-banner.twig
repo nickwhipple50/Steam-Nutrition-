@@ -1,0 +1,17 @@
+{% extends "partials/sections/_section-wrapper.twig" %}
+
+{% block section_content %}
+
+  <div class="campaign-banner campaign-banner--{{ fields.height|default('tall') }}{{ fields.overlay ? ' campaign-banner--overlay' : '' }}">
+
+    <div class="campaign-banner__media">
+      {% include "partials/media.twig" with { media: fields.media } only %}
+    </div>
+
+    <div class="campaign-banner__content campaign-banner__content--{{ fields.alignment|default('left') }}">
+      {% include "partials/content.twig" with { content: fields.content } only %}
+    </div>
+
+  </div>
+
+{% endblock %}

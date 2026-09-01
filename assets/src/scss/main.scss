@@ -8,13 +8,17 @@
 
 // Components
 @forward "components/button";
+@forward "components/content";
 
 // Layout
 @forward "layout/header";
 @forward "layout/footer";
+@forward "layout/section-layout";
 
 // Sections
 @forward "layout/sections/two-column";
+@forward "layout/sections/campaign-banner";
+@forward "layout/sections/category-tiles";
 
 // Pages
 @forward "pages/home";

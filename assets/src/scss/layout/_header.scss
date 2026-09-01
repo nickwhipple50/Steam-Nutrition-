@@ -3,13 +3,49 @@
 @use "@css/utils/mixins/industrial" as ind;
 
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
 
-  background-color: var(--charcoal);
-  border-bottom: 1px solid var(--line);
-  @include ind.blueprint-grid(48px);
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+
+  transition:
+      background-color 250ms ease,
+      border-color 250ms ease,
+      backdrop-filter 250ms ease;
+
+  // Solid brass-lined panel — shown once the page has scrolled past the
+  // threshold (see header.ts), or whenever a nav item is hovered/focused
+  // (so open dropdowns always have a readable backdrop).
+  &.site-header--scrolled,
+  &:hover,
+  &:focus-within {
+    background-color: var(--charcoal);
+    border-bottom-color: var(--line);
+    backdrop-filter: blur(10px);
+    @include ind.blueprint-grid(48px);
+  }
+}
+
+// The header is fixed/transparent, so page content needs to sit below it
+// by default. --header-height is measured and kept in sync by header.ts;
+// this value is just a same-size fallback before JS runs.
+:root {
+  --header-height: 88px;
+}
+
+main {
+  padding-top: var(--header-height);
+}
+
+// Pages with a full-bleed hero (add class="has-hero" to <body> in that
+// page's twig template, e.g. via a body_class filter) let their hero
+// section sit behind the transparent header instead of below it.
+body.has-hero main {
+  padding-top: 0;
 }
 
 .site-header__bar {
@@ -75,7 +111,35 @@
 // Primary nav (desktop)
 // ---------------------------------------------------------------
 .site-nav {
+  padding-top: 150px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
   margin-inline-start: var(--space-m);
+
+  a {
+    text-decoration: none;
+  }
+
+  &:hover,
+  &:focus-within {
+    .site-nav__link {
+      color: var(--brass-light);
+      border-color: var(--brass);
+    }
+  }
+
+  .site-nav__item:hover > .site-nav__link,
+  .site-nav__item:focus-within > .site-nav__link {
+    color: var(--brass-light);
+    border-color: var(--brass);
+  }
+
+  .site-nav__submenu .site-nav__link:hover,
+  .site-nav__submenu .site-nav__link:focus-visible {
+    color: var(--brass-light);
+    border-color: var(--brass);
+  }
 }
 
 .site-nav__list {

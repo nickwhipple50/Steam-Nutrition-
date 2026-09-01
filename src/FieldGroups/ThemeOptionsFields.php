@@ -25,6 +25,50 @@ class ThemeOptionsFields extends BaseFieldGroup {
       ->addUrl( 'link', [ 'required' => true ] )
       ->endRepeater()
       ->endGroup()
+      ->addTrueFalse( 'show_footer_credit', [
+        'label' => 'Show Footer Credit',
+        'default_value' => 1,
+        'ui' => true,
+      ] )
+      ->addText( 'footer_credit_label', [
+        'label' => 'Footer Credit Label',
+        'default_value' => 'Powered by',
+        'conditional_logic' => [
+          [
+            [
+              'field' => 'show_footer_credit',
+              'operator' => '==',
+              'value' => '1',
+            ],
+          ],
+        ],
+      ] )
+      ->addText( 'footer_credit_name', [
+        'label' => 'Footer Credit Name',
+        'default_value' => 'McGuinness Media & Marketing',
+        'conditional_logic' => [
+          [
+            [
+              'field' => 'show_footer_credit',
+              'operator' => '==',
+              'value' => '1',
+            ],
+          ],
+        ],
+      ] )
+      ->addUrl( 'footer_credit_url', [
+        'label' => 'Footer Credit URL',
+        'default_value' => 'https://mcguinnessmedia.com/',
+        'conditional_logic' => [
+          [
+            [
+              'field' => 'show_footer_credit',
+              'operator' => '==',
+              'value' => '1',
+            ],
+          ],
+        ],
+      ] )
       ->addRepeater( 'analytics', [
         'button_label' => 'Add Provider',
       ] )

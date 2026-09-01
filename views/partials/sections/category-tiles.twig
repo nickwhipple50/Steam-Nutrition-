@@ -1,0 +1,30 @@
+{% extends "partials/sections/_section-wrapper.twig" %}
+
+{% block section_content %}
+
+  {% include "partials/content.twig" with { content: fields.content } only %}
+
+  {% if fields.tiles %}
+    <div class="category-tiles category-tiles--cols-{{ fields.columns|default(4) }}">
+      {% for tile in fields.tiles %}
+        
+            class="category-tile"
+            href="{{ tile.link.url }}"
+            {% if tile.link.target %}target="{{ tile.link.target }}"{% endif %}
+        >
+          <span class="category-tile__media">
+            <img
+                src="{{ tile.image.url }}"
+                alt="{{ tile.image.alt|default(tile.link.title) }}"
+                width="{{ tile.image.width }}"
+                height="{{ tile.image.height }}"
+                loading="lazy"
+            >
+          </span>
+          <span class="category-tile__label">{{ tile.link.title }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+{% endblock %}

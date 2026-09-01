@@ -108,10 +108,17 @@
 
   <div class="site-footer__sub">
     <p>
-      &copy; {{ now|date('Y') }} {{ site.name }}. All rights reserved. Powered by
-      <a href="https://nicholaswhippledesigns.com/" target="_blank" rel="noopener noreferrer">
-        <strong>Nicholas Whipple Designs</strong>
-      </a>.
+      &copy; {{ now|date('Y') }} {{ site.name }}. All rights reserved.
+      {% if theme_options.show_footer_credit|default(true) %}
+        {{ theme_options.footer_credit_label|default('Powered by') }}
+        
+            href="{{ theme_options.footer_credit_url|default('https://mcguinnessmedia.com/') }}"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+          {{ theme_options.footer_credit_name|default('McGuinness Media & Marketing') }}
+        </a>.
+      {% endif %}
     </p>
 
     {% if footer_legal_menu %}
