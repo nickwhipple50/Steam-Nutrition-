@@ -1,0 +1,41 @@
+{% extends "partials/sections/_section-wrapper.twig" %}
+
+{% block section_content %}
+
+  {% include "partials/content.twig" with { content: fields.content } only %}
+
+  {% if fields.tiles %}
+    <div class="cta-tiles">
+      {% for tile in fields.tiles %}
+        <div class="cta-tile">
+
+          <div class="cta-tile__media">
+            <img
+                src="{{ tile.image.url }}"
+                alt="{{ tile.image.alt|default(tile.title) }}"
+                width="{{ tile.image.width }}"
+                height="{{ tile.image.height }}"
+                loading="lazy"
+            >
+          </div>
+
+          <div class="cta-tile__content">
+            <h3 class="cta-tile__title">{{ tile.title }}</h3>
+
+            {% if tile.link.url %}
+              
+                  class="cta-tile__link"
+                  href="{{ tile.link.url }}"
+                  {% if tile.link.target %}target="{{ tile.link.target }}"{% endif %}
+              >
+                {{ tile.link.title|default('Shop Now') }}
+              </a>
+            {% endif %}
+          </div>
+
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+{% endblock %}
