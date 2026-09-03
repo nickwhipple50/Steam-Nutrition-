@@ -9,6 +9,7 @@
 // Components
 @forward "components/button";
 @forward "components/content";
+@forward "components/product-card";
 
 // Layout
 @forward "layout/header";
@@ -17,8 +18,10 @@
 @forward "layout/sections/cta-tiles";
 
 // Sections
+@forward "layout/sections/hero";
 @forward "layout/sections/two-column";
 @forward "layout/sections/campaign-banner";
+@forward "layout/sections/product-slider";
 
 
 // Pages

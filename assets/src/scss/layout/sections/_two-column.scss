@@ -1,3 +1,64 @@
-section.two-column {
+.c-two-column {
+  display: grid;
+   grid-template-columns: 1fr 1fr;
+  flex-wrap: wrap;
+  align-items: stretch;
+  min-height: 60vh;
+  max-width: 1000px;
 
+  // The alignment field controls where the CONTENT ends up. Media always
+  // comes first in the markup, so "left" reverses the row (media flows to
+  // the right, content to the left) and "right" leaves it as authored.
+  &--left {
+    flex-direction: row-reverse;
+  }
+
+  &--right {
+    flex-direction: row;
+  }
+}
+
+.c-two-column__media {
+  position: relative;
+
+  flex: 1 1 50%;
+  min-height: 320px;
+  margin: 0;
+  overflow: hidden;
+
+  img,
+  video,
+  .media {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.c-two-column__content {
+  flex: 1 1 50%;
+
+  display: flex;
+  align-items: center;
+
+  padding: var(--space-xl) var(--space-l);
+}
+
+@media (max-width: 860px) {
+  .c-two-column {
+    &,
+    &--left,
+    &--right {
+      flex-direction: column;
+    }
+  }
+
+  .c-two-column__media {
+    min-height: 320px;
+  }
+
+  .c-two-column__content {
+    padding: var(--space-l) var(--space-s);
+  }
 }

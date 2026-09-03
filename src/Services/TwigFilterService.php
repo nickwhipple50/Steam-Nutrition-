@@ -2,8 +2,9 @@
 
 namespace MMM\Services;
 
+use MMM\Queries\ProductQuery;
 use MMM\Traits\Singleton;
-use Twig\{Environment, TwigFilter};
+use Twig\{Environment, TwigFilter, TwigFunction};
 
 class TwigFilterService
 {
@@ -36,8 +37,26 @@ class TwigFilterService
     return $twig;
   }
 
+  /**
+   * Register custom Twig functions.
+   * @param Environment $twig
+   * @return Environment
+   */
+  public function registerFunctions(Environment $twig): Environment
+  {
+    $twig->addFunction(new TwigFunction(
+      'mmm_products_by_category',
+      function (int $termId, int $count = 8, string $orderBy = 'date', string $order = 'DESC'): array {
+        return ProductQuery::byCategory($termId, $count, $orderBy, $order);
+      }
+    ));
+
+    return $twig;
+  }
+
   private function init(): void
   {
     add_filter('timber/twig', [$this, 'registerFilters']);
+    add_filter('timber/twig', [$this, 'registerFunctions']);
   }
 }

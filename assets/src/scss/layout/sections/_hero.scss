@@ -1,0 +1,172 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  color: var(--paper);
+
+  &--tall {
+    min-height: 70vh;
+  }
+
+  &--full {
+    min-height: 100vh;
+  }
+}
+
+// ---------------------------------------------------------------
+// Background media — image, video, or the Swiper slideshow
+// ---------------------------------------------------------------
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  img,
+  video,
+  .media,
+  .hero__swiper,
+  .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.hero__swiper {
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: var(--brass-light);
+
+    &::after {
+      font-size: 22px;
+    }
+  }
+}
+
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  background: linear-gradient(
+      to right,
+      rgba(10, 9, 6, 0.9) 0%,
+      rgba(10, 9, 6, 0.6) 45%,
+      rgba(10, 9, 6, 0.25) 100%
+  );
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10, 9, 6, 0.75) 0%, rgba(10, 9, 6, 0) 30%);
+  }
+}
+
+// ---------------------------------------------------------------
+// Content — eyebrow / heading / lead / buttons, from partials/content.twig
+// ---------------------------------------------------------------
+.hero__content-wrap {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  margin-top: auto;
+
+  padding: var(--space-xl) var(--space-s);
+}
+
+.hero__content {
+  display: flex;
+  flex-direction: column;
+
+  &--left {
+    align-items: flex-start;
+    text-align: left;
+    --content-align: flex-start;
+  }
+
+  &--center {
+    align-items: center;
+    text-align: center;
+    margin-inline: auto;
+    --content-align: center;
+  }
+
+  &--right {
+    align-items: flex-end;
+    text-align: right;
+    margin-inline-start: auto;
+    --content-align: flex-end;
+  }
+
+  // The hero's heading runs much larger than the shared .content__heading
+  // default (which is sized for in-page sections, not a full-bleed hero).
+  .content__heading {
+    font-size: clamp(2.75rem, 6vw, 5.5rem);
+    line-height: 0.95;
+    max-width: 14ch;
+  }
+
+  .content__eyebrow {
+    font-size: var(--step-0);
+  }
+}
+
+// ---------------------------------------------------------------
+// Filmstrip — slideshow-only thumbnail nav row beneath the hero
+// ---------------------------------------------------------------
+.hero__filmstrip {
+  position: relative;
+  z-index: 2;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 2px;
+
+  background: var(--black);
+}
+
+.filmstrip__item {
+  position: relative;
+
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  margin: 0;
+  border: none;
+
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 0.55;
+  transition: opacity 200ms ease;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:hover,
+  &.is-active {
+    opacity: 1;
+  }
+
+  &.is-active::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--brass);
+  }
+}
+
+@media (max-width: 700px) {
+  .hero__filmstrip {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

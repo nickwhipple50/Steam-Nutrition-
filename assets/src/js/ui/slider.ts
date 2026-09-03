@@ -1,5 +1,5 @@
 import Swiper from "swiper";
-import { A11y,Autoplay,Keyboard,Navigation,Pagination } from "swiper/modules";
+import { A11y,Autoplay,EffectFade,Keyboard,Navigation,Pagination } from "swiper/modules";
 
 import { qs,qsa } from '../core/dom.js';
 import { dataBool,dataInt,dataStr } from "../core/data.js";
@@ -23,6 +23,7 @@ import { dataBool,dataInt,dataStr } from "../core/data.js";
  *   data-slider-centered="false"
  *   data-slider-speed="400"
  *   data-slider-grab-cursor="true"
+ *   data-slider-effect="fade"
  * >
  *   <div class='swiper-wrapper'>
  *     <div class='swiper-slide'>Slide 1</div>
@@ -82,18 +83,23 @@ export function initSliders(): Swiper[] {
       const keyboardEnabled = dataBool( element,'sliderKeyboard' );
       const grabCursor = dataBool( element,'sliderGrabCursor',true );
 
+      // Effect — 'slide' (default) or 'fade' (crossfade, used by the hero slideshow)
+      const effectRaw = dataStr( element,'sliderEffect','slide' );
+      const effect: 'slide' | 'fade' = effectRaw === 'fade' ? 'fade' : 'slide';
+
       // Only activate needed modules
       const modules = [A11y];
       if ( hasValidNavigation ) modules.push( Navigation );
       if ( paginationEnabled && paginationEl ) modules.push( Pagination );
       if ( autoplayEnabled ) modules.push( Autoplay );
       if ( keyboardEnabled ) modules.push( Keyboard );
+      if ( effect === 'fade' ) modules.push( EffectFade );
 
       const swiper = new Swiper( element,{
         modules,
 
         // Layout
-        slidesPerView,
+        slidesPerView: effect === 'fade' ? 1 : slidesPerView,
         spaceBetween,
         centeredSlides,
 
@@ -102,6 +108,9 @@ export function initSliders(): Swiper[] {
         speed,
         grabCursor,
         watchOverflow: true,
+
+        effect,
+        ...( effect === 'fade' ? { fadeEffect: { crossFade: true } } : {} ),
 
         navigation: hasValidNavigation ? {
           prevEl: prev,

@@ -1,0 +1,72 @@
+{% extends "partials/sections/_section-wrapper.twig" %}
+
+{% block section_content %}
+
+  {% set products = fields.category
+      ? mmm_products_by_category(fields.category, fields.count|default(8), fields.order_by|default('date'), fields.order|default('DESC'))
+      : [] %}
+
+  <div class="product-slider">
+
+    <div class="product-slider__header">
+      <h2 class="product-slider__heading">{{ fields.heading }}</h2>
+    </div>
+
+    {% if products|length > 0 %}
+      <div
+          class="swiper product-slider__swiper"
+          data-slider-slides-per-view="4"
+          data-slider-space-between="20"
+          data-slider-navigation="true"
+          data-slider-grab-cursor="true"
+          data-slider-keyboard="true"
+      >
+        <div class="swiper-wrapper">
+          {% for product in products %}
+            <div class="swiper-slide">
+              <article class="product-card">
+
+                {% if product.on_sale %}
+                  <span class="product-card__badge">Limited Time Only</span>
+                {% endif %}
+
+                <a class="product-card__media" href="{{ product.permalink }}">
+                  <img
+                      src="{{ product.image.url }}"
+                      alt="{{ product.image.alt }}"
+                      loading="lazy"
+                  />
+                </a>
+
+                <div class="product-card__body">
+                  <h3 class="product-card__title">
+                    <a href="{{ product.permalink }}">{{ product.title }}</a>
+                  </h3>
+                  <div class="product-card__price">{{ product.price_html|raw }}</div>
+                </div>
+
+                {% if product.purchasable %}
+                  
+                      href="{{ product.add_to_cart_url }}"
+                      class="product-card__cta btn btn--primary"
+                      data-product-id="{{ product.id }}"
+                  >
+                    Add to Cart
+                  </a>
+                {% endif %}
+
+              </article>
+            </div>
+          {% endfor %}
+        </div>
+
+        <button class="swiper-button-prev" aria-label="Previous product"></button>
+        <button class="swiper-button-next" aria-label="Next product"></button>
+      </div>
+    {% else %}
+      <p class="product-slider__empty">No products found in this category yet.</p>
+    {% endif %}
+
+  </div>
+
+{% endblock %}

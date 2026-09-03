@@ -1,17 +1,31 @@
-{% extends "partials/sections/_section-wrapper.twig" %}
+{% set section = fields.section ?? {} %}
+{% set motion = fields.motion ?? {} %}
+{% set element = section.semantic_element ?: 'section' %}
 
-{% block section_content %}
+{#
+  Campaign Banner is intentionally edge-to-edge and does NOT go through
+  _section-wrapper's c-container — same reasoning as hero.twig. The
+  "Container Width" / "Top Padding" / "Bottom Padding" fields under
+  Section Settings still exist in ACF (BaseLayout adds that tab to every
+  layout) but have no effect here; only Anchor ID, HTML Element, and
+  Motion are honored.
+#}
+<{{ element }}
+  class="campaign-banner campaign-banner--{{ fields.height|default('tall') }}{{ fields.overlay ? ' campaign-banner--overlay' : '' }}"
+  {% if section.anchor_id %}id="{{ section.anchor_id }}"{% endif %}
+  {% if motion.enable_animation %}
+    data-animate="{{ motion.animation_type }}"
+    data-delay="{{ motion.delay }}"
+    data-duration="{{ motion.duration }}"
+  {% endif %}
+>
 
-  <div class="campaign-banner campaign-banner--{{ fields.height|default('tall') }}{{ fields.overlay ? ' campaign-banner--overlay' : '' }}">
-
-    <div class="campaign-banner__media">
-      {% include "partials/media.twig" with { media: fields.media } only %}
-    </div>
-
-    <div class="campaign-banner__content campaign-banner__content--{{ fields.alignment|default('left') }}">
-      {% include "partials/content.twig" with { content: fields.content } only %}
-    </div>
-
+  <div class="campaign-banner__media">
+    {% include "partials/media.twig" with { media: fields.media } only %}
   </div>
 
-{% endblock %}
+  <div class="campaign-banner__content campaign-banner__content--{{ fields.alignment|default('left') }}">
+    {% include "partials/content.twig" with { content: fields.content } only %}
+  </div>
+
+</{{ element }}>

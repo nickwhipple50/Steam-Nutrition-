@@ -2,7 +2,7 @@
 
 namespace MMM\FieldGroups;
 
-use MMM\FieldGroups\FlexibleContent\{CampaignBannerLayout, CtaLayout, CtaTilesLayout, SpacerLayout, StatsLayout, TwoColumnLayout};
+use MMM\FieldGroups\FlexibleContent\{CampaignBannerLayout, CtaLayout, CtaTilesLayout, HeroLayout, ProductSliderLayout, SpacerLayout, StatsLayout, TwoColumnLayout};
 use MMM\Traits\HasFlexibleContent;
 
 class PageContent extends BaseFieldGroup {
@@ -10,12 +10,14 @@ class PageContent extends BaseFieldGroup {
 
   public function __construct()
   {
+    $this->registerLayout( new HeroLayout() );
     $this->registerLayout( new TwoColumnLayout() );
     $this->registerLayout( new StatsLayout() );
     $this->registerLayout( new CtaLayout() );
     $this->registerLayout( new SpacerLayout() );
     $this->registerLayout( new CampaignBannerLayout() );
     $this->registerLayout( new CtaTilesLayout() );
+    $this->registerLayout( new ProductSliderLayout() );
   }
 
   public function getTitle(): string

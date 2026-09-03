@@ -1,0 +1,92 @@
+{% set section = fields.section ?? {} %}
+{% set motion = fields.motion ?? {} %}
+{% set content = fields.content ?? {} %}
+{% set media = fields.media ?? {} %}
+{% set element = section.semantic_element ?: 'section' %}
+{% set alignment = fields.alignment|default('left') %}
+{% set height = fields.height|default('full') %}
+{% set is_slideshow = media.type == 'slider' and media.gallery|length > 0 %}
+{% set show_filmstrip = is_slideshow and fields.show_filmstrip and media.gallery|length > 1 %}
+
+{#
+  Hero is intentionally edge-to-edge and does NOT go through
+  _section-wrapper's c-container — the background media needs to span the
+  full viewport regardless of the shared "Container Width" setting. Only
+  the text content is constrained, via .hero__content-wrap below.
+#}
+<{{ element }}
+  class="hero hero--{{ height }}"
+  {% if section.anchor_id %}id="{{ section.anchor_id }}"{% endif %}
+  {% if motion.enable_animation %}
+    data-animate="{{ motion.animation_type }}"
+    data-delay="{{ motion.delay }}"
+    data-duration="{{ motion.duration }}"
+  {% endif %}
+>
+
+  <div class="hero__media">
+    {% if is_slideshow %}
+      <div
+          class="swiper hero__swiper"
+          data-hero-swiper
+          data-slider-loop="true"
+          data-slider-autoplay="true"
+          data-slider-autoplay-delay="{{ fields.slide_duration|default(6000) }}"
+          data-slider-pause-on-hover="false"
+          data-slider-effect="fade"
+          data-slider-speed="800"
+          data-slider-navigation="true"
+          data-slider-keyboard="true"
+      >
+        <div class="swiper-wrapper">
+          {% for image in media.gallery %}
+            <div class="swiper-slide">
+              <img
+                  src="{{ image.url }}"
+                  alt="{{ image.alt ?: '' }}"
+                  loading="{{ loop.first ? 'eager' : 'lazy' }}"
+                  width="{{ image.width }}"
+                  height="{{ image.height }}"
+              />
+            </div>
+          {% endfor %}
+        </div>
+
+        <button class="swiper-button-prev" aria-label="Previous slide"></button>
+        <button class="swiper-button-next" aria-label="Next slide"></button>
+      </div>
+    {% else %}
+      {% include "partials/media.twig" with { media: media } only %}
+    {% endif %}
+
+    {% if fields.overlay|default(true) %}
+      <div class="hero__scrim"></div>
+    {% endif %}
+  </div>
+
+  <div class="hero__content-wrap">
+    <div class="hero__content hero__content--{{ alignment }}">
+      {% include "partials/content.twig" with { content: content } only %}
+    </div>
+  </div>
+
+  {% if show_filmstrip %}
+    <div class="hero__filmstrip" data-hero-filmstrip>
+      {% for image in media.gallery %}
+        <button
+            type="button"
+            class="filmstrip__item{{ loop.first ? ' is-active' : '' }}"
+            data-filmstrip-index="{{ loop.index0 }}"
+            aria-label="Go to slide {{ loop.index }}"
+        >
+          <img
+              src="{{ image.sizes.medium ?: image.url }}"
+              alt=""
+              loading="lazy"
+          />
+        </button>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+</{{ element }}>

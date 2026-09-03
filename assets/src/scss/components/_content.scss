@@ -57,6 +57,11 @@
     flex-wrap: wrap;
     gap: var(--space-2xs);
     margin-top: var(--space-m);
+
+    // Set by each section's alignment modifier (e.g. .campaign-banner__content--right,
+    // .hero__content--right) so buttons line up with the eyebrow/heading above them —
+    // text-align alone doesn't affect this flex row's own justify-content.
+    justify-content: var(--content-align, flex-start);
   }
 }
 

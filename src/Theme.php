@@ -82,6 +82,31 @@ class Theme
     return $context;
   }
 
+  /**
+   * Add "has-hero" to the body when the page's first flexible content
+   * component is the Hero layout, so the hero can sit full-bleed behind
+   * the transparent header instead of below it (see layout/_header.scss).
+   * @param array $classes
+   * @return array
+   */
+  public function bodyClass(array $classes): array
+  {
+    if (!is_page()) {
+      return $classes;
+    }
+
+    $postId = get_queried_object_id();
+    $fields = $postId ? get_fields($postId) : null;
+    $components = $fields['components'] ?? [];
+    $first = $components[0] ?? null;
+
+    if (($first['acf_fc_layout'] ?? null) === 'hero') {
+      $classes[] = 'has-hero';
+    }
+
+    return $classes;
+  }
+
   private function init(): void
   {
     // Set Timber directory
@@ -109,6 +134,9 @@ class Theme
     // Register Timber necessities
     add_filter('timber/context', [$this, 'addToContext']);
     add_filter('timber/post/classmap', [$this, 'classmap']);
+
+    // Let the hero layout sit full-bleed behind the transparent header
+    add_filter('body_class', [$this, 'bodyClass']);
 
     $this->registerPostTypes();
     $this->registerTaxonomies();
